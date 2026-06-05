@@ -103,7 +103,7 @@ export const QuizScreen = memo(() => {
 							]}
 						>
 							<Text style={styles.answerText}>
-								{answer.option} {answer.isCorrect ? "✓" : "✗"}
+								{answer.option}
 							</Text>
 
 							{selectedAnswerId !== null && isSelected && (
