@@ -1,4 +1,4 @@
-package com.darkblanc
+package com.darkblanc.privatecode
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

@@ -77,9 +77,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.darkblanc"
+    namespace "com.darkblanc.privatecode"
     defaultConfig {
-        applicationId "com.darkblanc"
+        applicationId "com.darkblanc.privatecode"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
