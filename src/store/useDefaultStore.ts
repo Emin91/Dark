@@ -36,6 +36,7 @@ type TDefaultStoreState = {
 	setInitialTestResultPercent: (value: number) => void;
 	setQuicTestScoreInPercent: (value: number) => void;
 	saveDailyQuizResult: (score: number, total: number, quizListKey: TQuizListKey, completedDate: string) => void;
+	resetProgress: () => void;
 };
 
 type TAchievementUnlockParams = {
@@ -135,6 +136,18 @@ const getAchievementsWithUnlockState = (achievements: TAchievement[], params: TA
 		};
 	});
 
+const DEFAULT_QUIZ_STATISTICS: TQuizStatistics = {
+	streak: 0,
+	previousTestResultPercent: 0,
+	initialTestResultPercent: 58
+};
+
+const DEFAULT_QUIZ_SCORE: TQuizScore = {
+	poorTaste: 0,
+	middle: 0,
+	elite: 0
+};
+
 export const useDefaultStore = create<TDefaultStoreState>()(
 	persist(
 		set => ({
@@ -144,16 +157,8 @@ export const useDefaultStore = create<TDefaultStoreState>()(
 			lastQuizListKey: null,
 			achievements: ACHIEVEMENTS_DATA,
 			lastDailyQuizCompletedDate: null,
-			quizStatistics: {
-				streak: 0,
-				previousTestResultPercent: 0,
-				initialTestResultPercent: 58
-			},
-			quizScore: {
-				poorTaste: 0,
-				middle: 0,
-				elite: 0
-			},
+			quizStatistics: DEFAULT_QUIZ_STATISTICS,
+			quizScore: DEFAULT_QUIZ_SCORE,
 			quicTestScoreInPercent: 0,
 			toggleIsNotificationEnabled: () => set(state => ({ isNotificationEnabled: !state.isNotificationEnabled })),
 			toggleIsSoundsEnabled: () => set(state => ({ isSoundsEnabled: !state.isSoundsEnabled })),
@@ -203,6 +208,15 @@ export const useDefaultStore = create<TDefaultStoreState>()(
 							hasCompletedQuiz: true
 						})
 					};
+				}),
+			resetProgress: () =>
+				set({
+					lastQuizListKey: null,
+					achievements: ACHIEVEMENTS_DATA,
+					lastDailyQuizCompletedDate: null,
+					quizStatistics: DEFAULT_QUIZ_STATISTICS,
+					quizScore: DEFAULT_QUIZ_SCORE,
+					quicTestScoreInPercent: 0
 				})
 		}),
 		{

@@ -1,5 +1,5 @@
 import { memo, } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MainHeader } from "../components/MainHeader";
 import { MainButton } from "../components/MainButton";
 import { useDefaultStore } from "../store/useDefaultStore";
@@ -13,6 +13,7 @@ export const SettingsScreen = memo(() => {
 	const isNotificationEnabled = useDefaultStore(state => state.isNotificationEnabled);
 	const toggleIsSoundsEnabled = useDefaultStore(state => state.toggleIsSoundsEnabled);
 	const toggleIsNotificationEnabled = useDefaultStore(state => state.toggleIsNotificationEnabled);
+	const resetProgress = useDefaultStore(state => state.resetProgress);
 
 	const options = [
 		{
@@ -28,26 +29,32 @@ export const SettingsScreen = memo(() => {
 	]
 
 	const onClear = () => {
-		navigation.navigate("ConfirmModal", {
-			title: "Clear cache?",
-			subtitle: "This will remove all cached data and reset the app to its initial state.",
-			mainActionTitle: "Clear cache",
-			withGoBack: true,
-			mainActionOnPress: () => {
-
+		Alert.alert("Clear cache?", "This will remove all cached data and reset the app to its initial state.", [
+			{
+				text: "Cancel",
+				style: "cancel"
+			},
+			{
+				text: "Clear cache",
+				style: "destructive",
+				onPress: () => {
+				}
 			}
-		});
+		]);
 	}
 
 	const onReset = () => {
-		navigation.navigate("ConfirmModal", {
-			title: "Reset app?",
-			subtitle: "This will remove all cached data and reset the app to its initial state.",
-			mainActionTitle: "Reset app",
-			withGoBack: true,
-			mainActionOnPress: () => {
+		Alert.alert("Reset app?", "This will remove all cached data and reset the app to its initial state.", [
+			{
+				text: "Cancel",
+				style: "cancel"
+			},
+			{
+				text: "Reset app",
+				style: "destructive",
+				onPress: resetProgress
 			}
-		});
+		]);
 	}
 
 	return (
@@ -60,8 +67,8 @@ export const SettingsScreen = memo(() => {
 						<Toggle value={option.state} onChange={option.onChange} />
 					</View>
 				))}
-				<MainButton title="Clear Cache" onPress={onClear} buttonStyle={{ backgroundColor: "#382B26", alignItems: "flex-start" }} />
-				<MainButton title="Reset Progress" onPress={onReset} buttonStyle={{ backgroundColor: "#582424", alignItems: "flex-start" }} />
+				<MainButton title="Clear Cache" onPress={onClear} buttonStyle={styles.button} />
+				<MainButton title="Reset Progress" onPress={onReset} buttonStyle={[styles.button, { backgroundColor: "#582424" }]} />
 			</View>
 			<TouchableOpacity onPress={() => navigation.navigate("Privacy")}>
 				<Text style={styles.privacyPolicyText}>Privacy Policy</Text>
@@ -97,6 +104,10 @@ const styles = StyleSheet.create({
 		fontSize: 19,
 		fontWeight: 900,
 		color: "#FFF"
+	},
+	button: {
+		alignItems: "flex-start",
+		backgroundColor: "#382B26"
 	},
 	privacyPolicyText: {
 		fontSize: 14,

@@ -3,7 +3,7 @@ import { createNavigationContainerRef, NavigationContainer } from "@react-naviga
 import { enableScreens } from "react-native-screens";
 import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { WelcomeScreen } from "../screens/WelcomeScreen";
-import { QuickTestQuestions, QuickTestScreen } from "../screens/QuickTestScreen";
+import { QuickTestScreen } from "../screens/QuickTestScreen";
 import { QuickTestResultScreen } from "../screens/QuickTestResultScreen";
 import { DisclaimerScreen } from "../screens/DisclaimerScreen";
 import { HomeScreen } from "../screens/HomeScreen";
@@ -16,6 +16,7 @@ import { QuizResultScreen } from "../screens/QuizResultScreen";
 import { useDefaultStore } from "../store/useDefaultStore";
 import { AchievementsScreen } from "../screens/AchievementsScreen";
 import { TQuizListKey } from "../data/quizData";
+import { PrivacyScreen } from "../screens/PrivacyScreen";
 
 enableScreens(true);
 
@@ -31,6 +32,7 @@ export type RootStackParamList = {
 	Quiz: { quizListKey: TQuizListKey };
 	QuizResult: { score: number; total: number; quizListKey: TQuizListKey };
 	Achievements: undefined;
+	Privacy: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -38,12 +40,6 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export type RootNavigation = NativeStackNavigationProp<RootStackParamList>;
 
 export const navigationRef = createNavigationContainerRef<RootStackParamList>();
-
-const transparentModalOptions = {
-	presentation: "transparentModal" as const,
-	animation: "fade" as const,
-	contentStyle: { backgroundColor: "transparent" }
-};
 
 export const Routing = () => {
 	const isOnboardingShown = useDefaultStore(state => state.isOnboardingShown);
@@ -62,9 +58,7 @@ export const Routing = () => {
 				<Stack.Screen name="Quiz" component={QuizScreen} />
 				<Stack.Screen name="QuizResult" component={QuizResultScreen} />
 				<Stack.Screen name="Achievements" component={AchievementsScreen} />
-				{/*<Stack.Group screenOptions={transparentModalOptions}>
-					<Stack.Screen name="ConfirmModal" component={ConfirmModalScreen} />
-				</Stack.Group>*/}
+				<Stack.Screen name="Privacy" component={PrivacyScreen} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
